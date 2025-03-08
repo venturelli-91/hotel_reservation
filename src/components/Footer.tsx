@@ -21,12 +21,16 @@ const Footer = () => {
 				}}>
 				<FlowbiteFooter
 					container
-					style={{ marginTop: "auto" }}>
+					style={{
+						marginTop: "auto",
+						backgroundColor: "purple",
+						color: "yellow",
+					}}>
 					<FlowbiteFooter.Copyright
 						href="#"
 						by="Pousada Encanto da Serra"
 						year={2025}
-						className="font-bold"
+						style={{ color: "white", fontWeight: "bold" }}
 					/>
 					<FlowbiteFooter.LinkGroup>
 						<FlowbiteFooter.Link
