@@ -4,6 +4,8 @@ import { Datepicker } from "flowbite-react";
 import CardRooms from "@/components/CardRooms";
 import "../pages/_app";
 import ReservationForm from "@/components/ReservationForm";
+import About from "@/components/About";
+import Comments from "@/components/Comments";
 export default function Home() {
 	return (
 		<>
@@ -13,6 +15,8 @@ export default function Home() {
 			/>
 			<HotelBanner />
 			<CardRooms />
+			<About />
+			<Comments />
 			<ReservationForm />
 			<Footer />
 		</>

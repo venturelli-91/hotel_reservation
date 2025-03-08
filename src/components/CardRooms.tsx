@@ -4,6 +4,7 @@ import { Card } from "flowbite-react";
 import Img1 from "../../public/assets/suite_esssencial.jpg";
 import Img2 from "../../public/assets/suite_premium.jpg";
 import Img3 from "../../public/assets/suite_grand_luxe.jpg";
+import Img4 from "../../public/assets/Vector 5.png";
 
 const CardRooms = () => {
 	return (
@@ -11,8 +12,15 @@ const CardRooms = () => {
 			<div className="flex justify-center items-center">
 				<h1 className="text-4xl font-extrabold mt-28">Escolha sua suíte</h1>
 			</div>
+			<div className="flex justify-center items-center">
+				<Image
+					src={Img4}
+					alt="Vector"
+					className="flex justify-center items-center mt-7"
+				/>
+			</div>
 
-			<div className="flex justify-center items-center gap-4 mt-28">
+			<div className="flex justify-center items-center gap-4 mt-16">
 				<Card className="hover:scale-105 transition-all duration-100">
 					<Image
 						src={Img1}

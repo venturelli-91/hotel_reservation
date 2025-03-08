@@ -6,7 +6,7 @@ import logo from "../../public/assets/logo.png";
 
 const HotelBanner = () => {
 	return (
-		<div className="w-full h-[500px] relative mt-9">
+		<div className="w-full h-[500px] relative mt-9 shadow-md shadow-black">
 			<Image
 				src={background}
 				alt="Banner"
