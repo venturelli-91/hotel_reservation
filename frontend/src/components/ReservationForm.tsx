@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import { useReservationStore } from "../store/reservationStore";
 import Image from "next/image";
 import Rectangle from "../../public/assets/Rectangle 8.png";
+import { createReservation } from "../services/reservationService";
 
 const ReservationForm = () => {
 	const {
@@ -33,7 +34,7 @@ const ReservationForm = () => {
 		}
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		const { valido, mensagem } = validarFormulario();
@@ -43,11 +44,14 @@ const ReservationForm = () => {
 			return;
 		}
 
-		console.log("Dados do formulário:", formData);
-
-		alert("Reserva enviada com sucesso! Em breve entraremos em contato.");
-
-		resetarFormulario();
+		try {
+			await createReservation(formData);
+			alert("Reserva enviada com sucesso! Em breve entraremos em contato.");
+			resetarFormulario();
+		} catch (error) {
+			console.error("Erro ao enviar reserva:", error);
+			alert("Erro ao enviar reserva. Por favor, tente novamente mais tarde.");
+		}
 	};
 
 	return (
