@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:3001/api";
 
-// Interface para o formulário de reserva
 export interface ReservationForm {
 	nomeCompleto: string;
 	email: string;
@@ -10,7 +9,6 @@ export interface ReservationForm {
 	qtdPessoas: number;
 }
 
-// Criar uma nova reserva
 export const createReservation = async (reservation: ReservationForm) => {
 	try {
 		const response = await fetch(`${API_URL}/reservations`, {
@@ -32,7 +30,6 @@ export const createReservation = async (reservation: ReservationForm) => {
 	}
 };
 
-// Obter todas as reservas
 export const getAllReservations = async () => {
 	try {
 		const response = await fetch(`${API_URL}/reservations`);

@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Configuração do banco de dados PostgreSQL
 const sequelize = new Sequelize({
 	dialect: "postgres",
 	host: process.env.DB_HOST || "localhost",

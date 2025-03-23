@@ -65,7 +65,6 @@ const ReservationForm = () => {
 			</h2>
 			<form onSubmit={handleSubmit}>
 				<div className="w-3/4 mx-auto mt-24 relative">
-					{/* Container para a imagem de fundo */}
 					<div
 						className="absolute overflow-hidden"
 						style={{
@@ -79,7 +78,6 @@ const ReservationForm = () => {
 							padding: "2px",
 						}}>
 						<div className="w-full h-full bg-gray-50 rounded-xl">
-							{/* Mantemos a referência à imagem, mas a escondemos visualmente */}
 							<div className="hidden">
 								<Image
 									src={Rectangle}
@@ -91,7 +89,6 @@ const ReservationForm = () => {
 						</div>
 					</div>
 
-					{/* Conteúdo do formulário */}
 					<div className="w-full bg-gray-50 p-8 rounded-xl shadow-lg relative z-10">
 						<div className="grid grid-cols-2 gap-8">
 							<div className="flex flex-col gap-5 p-5 bg-gray-50 rounded-lg shadow-sm">

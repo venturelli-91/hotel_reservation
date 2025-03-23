@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Interfaces
 export interface ReservationFormData {
 	nomeCompleto: string;
 	email: string;
@@ -14,13 +13,10 @@ export interface ReservationFormErrors {
 	dataErro: string;
 }
 
-// Interface da store
 interface ReservationStore {
-	// Estado
 	formData: ReservationFormData;
 	formErrors: ReservationFormErrors;
 
-	// Ações
 	setField: (field: keyof ReservationFormData, value: string | number) => void;
 	incrementarPessoas: () => void;
 	decrementarPessoas: () => void;
@@ -28,7 +24,6 @@ interface ReservationStore {
 	resetarFormulario: () => void;
 }
 
-// Valores iniciais
 const initialFormData: ReservationFormData = {
 	nomeCompleto: "",
 	email: "",
@@ -42,13 +37,10 @@ const initialFormErrors: ReservationFormErrors = {
 	dataErro: "",
 };
 
-// Criação da store
 export const useReservationStore = create<ReservationStore>((set, get) => ({
-	// Estado inicial
 	formData: initialFormData,
 	formErrors: initialFormErrors,
 
-	// Ações
 	setField: (field, value) => {
 		set((state) => {
 			const newFormData = {
@@ -56,7 +48,6 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 				[field]: value,
 			};
 
-			// Validação específica para datas
 			const newFormErrors = { ...state.formErrors };
 
 			if (field === "dataEntrada" || field === "dataSaida") {
@@ -70,7 +61,6 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 						dataSaida.split("/").reverse().join("-")
 					);
 
-					// Adiciona 4 dias à data de entrada
 					const minDataSaida = new Date(dataEntradaObj);
 					minDataSaida.setDate(minDataSaida.getDate() + 4);
 
@@ -123,7 +113,6 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 			};
 		}
 
-		// Validação de campos obrigatórios
 		if (!formData.nomeCompleto.trim()) {
 			return {
 				valido: false,
