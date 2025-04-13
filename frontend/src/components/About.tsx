@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Img1 from "../../public/assets/sobre_1.jpg";
-import Img2 from "../../public/assets/sobre_2.jpg";
-import Vector from "../../public/assets/Vector 5.png";
+import Img1 from "../../public/assets/marco/sobre_1.jpg";
+import Img2 from "../../public/assets/marco/sobre_2.jpg";
+import Vector from "../../public/assets/marco/Vector 5.png";
 import React from "react";
 
 const About = () => {

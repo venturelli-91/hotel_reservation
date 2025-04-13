@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Img1 from "../../public/assets/Tiro médio da mulher do smiley que levanta _ Foto Grátis.png";
-import Img3 from "../../public/assets/Group 1.png";
-import Vector from "../../public/assets/Vector 5.png";
+import Img1 from "../../public/assets/marco/Tiro médio da mulher do smiley que levanta _ Foto Grátis.png";
+import Img3 from "../../public/assets/marco/Group 1.png";
+import Vector from "../../public/assets/marco/Vector 5.png";
 import { Card } from "flowbite-react";
 
 const Comments = () => {

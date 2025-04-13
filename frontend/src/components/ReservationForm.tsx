@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import { Button } from "flowbite-react";
 import { useReservationStore } from "../store/reservationStore";
 import Image from "next/image";
-import Rectangle from "../../public/assets/Rectangle 8.png";
+import Rectangle from "../../public/assets/marco/Rectangle 8.png";
 import { createReservation } from "../services/reservationService";
 
 const ReservationForm = () => {

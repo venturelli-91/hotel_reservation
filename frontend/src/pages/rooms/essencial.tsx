@@ -30,7 +30,7 @@ const SuiteEssencial = () => {
 
 	const handleReservation = (e: React.FormEvent) => {
 		e.preventDefault();
-		// Redirecionar para página de sucesso
+
 		window.location.href = "/success";
 	};
 
@@ -40,7 +40,6 @@ const SuiteEssencial = () => {
 				<title>Suíte Essencial | Hotel Paradise</title>
 			</Head>
 
-			{/* Header e descrição breve */}
 			<div className="max-w-7xl mx-auto px-4 py-16">
 				<div className="text-center mb-12">
 					<h1 className="text-4xl font-extrabold mb-4">Suíte Essencial</h1>
@@ -50,7 +49,6 @@ const SuiteEssencial = () => {
 					</p>
 				</div>
 
-				{/* Galeria de imagens */}
 				<div className="mb-16">
 					<h2 className="text-2xl font-bold mb-6">Galeria</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -85,7 +83,6 @@ const SuiteEssencial = () => {
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-					{/* Descrição detalhada e características */}
 					<div className="lg:col-span-2">
 						<div className="mb-10">
 							<h2 className="text-2xl font-bold mb-6">Descrição</h2>
@@ -140,7 +137,6 @@ const SuiteEssencial = () => {
 							</div>
 						</div>
 
-						{/* Avaliações dos usuários */}
 						<div className="mb-10">
 							<h2 className="text-2xl font-bold mb-6">Avaliações</h2>
 							<div className="space-y-6">
@@ -174,7 +170,6 @@ const SuiteEssencial = () => {
 						</div>
 					</div>
 
-					{/* Formulário de reserva e sugestões */}
 					<div className="lg:col-span-1">
 						<div className="bg-white shadow-lg rounded-lg p-6 mb-10 sticky top-8">
 							<h2 className="text-2xl font-bold mb-6">Reserve Agora</h2>
@@ -243,7 +238,6 @@ const SuiteEssencial = () => {
 							</form>
 						</div>
 
-						{/* Outras suítes */}
 						<div className="bg-white shadow-lg rounded-lg p-6">
 							<h2 className="text-2xl font-bold mb-6">Outras Suítes</h2>
 							<div className="space-y-4">

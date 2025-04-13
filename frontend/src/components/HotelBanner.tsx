@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "flowbite-react";
-import background from "../../public/assets/banner_principal.jpg";
-import logo from "../../public/assets/logo.png";
+import background from "../../public/assets/marco/banner_principal.jpg";
+import logo from "../../public/assets/marco/logo.png";
 
 const HotelBanner = () => {
 	return (

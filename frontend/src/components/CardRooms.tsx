@@ -2,11 +2,11 @@ import React from "react";
 import Image from "next/image";
 import { Card } from "flowbite-react";
 import Link from "next/link";
-import Img1 from "../../public/assets/suite_esssencial.jpg";
-import Img2 from "../../public/assets/suite_premium.jpg";
-import Img3 from "../../public/assets/suite_grand_luxe.jpg";
-import Img4 from "../../public/assets/Vector 5.png";
-import Img5 from "../../public/assets/Rectangle 23.png";
+import Img1 from "../../public/assets/marco/suite_esssencial.jpg";
+import Img2 from "../../public/assets/marco/suite_premium.jpg";
+import Img3 from "../../public/assets/marco/suite_grand_luxe.jpg";
+import Img4 from "../../public/assets/marco/Vector 5.png";
+import Img5 from "../../public/assets/marco/Rectangle 23.png";
 
 const CardRooms = () => {
 	return (

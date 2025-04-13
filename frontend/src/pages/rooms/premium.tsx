@@ -14,11 +14,11 @@ import {
 	FaConciergeBell,
 } from "react-icons/fa";
 import Head from "next/head";
-import ImgPremium1 from "../../../public/assets/suite_premium.jpg";
-import ImgPremium2 from "../../../public/assets/suite_premium_2.jpg";
-import ImgPremium3 from "../../../public/assets/suite_premium_3.jpg";
-import ImgEssencial from "../../../public/assets/suite_esssencial.jpg";
-import ImgExecutiva from "../../../public/assets/suite_grand_luxe.jpg";
+import ImgPremium1 from "../../../public/assets/abril/Villa.jpeg";
+import ImgPremium2 from "../../../public/assets/abril/Casa_praia.jpeg";
+import ImgPremium3 from "../../../public/assets/abril/outdoor_kitchen.jpeg";
+import ImgEssencial from "../../../public/assets/abril/cafe_manha.jpeg";
+import ImgExecutiva from "../../../public/assets/abril/bedroom1.jpeg";
 
 const SuitePremium = () => {
 	const [checkIn, setCheckIn] = useState("");

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Map from "../../public/assets/mapa.png";
+import Map from "../../public/assets/marco/mapa.png";
 
 export default function Address() {
 	return (
