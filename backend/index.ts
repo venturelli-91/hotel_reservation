@@ -28,6 +28,16 @@ app.post("/api/reservations", async (req, res) => {
 	}
 });
 
+app.get("/api/reservations", async (req, res) => {
+	try {
+		const reservations = await Reservation.findAll();
+		res.status(200).json(reservations);
+	} catch (error) {
+		console.error("Erro ao buscar reservas:", error);
+		res.status(500).json({ message: "Erro ao buscar reservas" });
+	}
+});
+
 const startServer = async () => {
 	try {
 		await sequelize.sync();

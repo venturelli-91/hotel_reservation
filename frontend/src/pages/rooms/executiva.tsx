@@ -14,11 +14,11 @@ import {
 	FaKey,
 } from "react-icons/fa";
 import Head from "next/head";
-import ImgExecutiva1 from "../../../public/assets/suite_grand_luxe.jpg";
-import ImgExecutiva2 from "../../../public/assets/suite_executiva_2.jpg";
-import ImgExecutiva3 from "../../../public/assets/suite_executiva_3.jpg";
-import ImgEssencial from "../../../public/assets/suite_esssencial.jpg";
-import ImgPremium from "../../../public/assets/suite_premium.jpg";
+import ImgExecutiva1 from "../../../public/assets/abril/lovely.jpeg";
+import ImgExecutiva2 from "../../../public/assets/abril/cafe_manha.jpeg";
+import ImgExecutiva3 from "../../../public/assets/abril/Mask group.png";
+import ImgEssencial from "../../../public/assets/abril/bedroom1.jpeg";
+import ImgPremium from "../../../public/assets/abril/bedroom2.png";
 
 const SuiteExecutiva = () => {
 	const [checkIn, setCheckIn] = useState("");

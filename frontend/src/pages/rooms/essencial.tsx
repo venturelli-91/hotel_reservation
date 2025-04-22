@@ -12,11 +12,11 @@ import {
 	FaBed,
 } from "react-icons/fa";
 import Head from "next/head";
-import ImgEssencial1 from "../../../public/assets/suite_esssencial.jpg";
-import ImgEssencial2 from "../../../public/assets/suite_esssencial_2.jpg";
-import ImgEssencial3 from "../../../public/assets/suite_esssencial_3.jpg";
-import ImgPremium from "../../../public/assets/suite_premium.jpg";
-import ImgExecutiva from "../../../public/assets/suite_grand_luxe.jpg";
+import ImgEssencial1 from "../../../public/assets/abril/bedroom1.jpeg";
+import ImgEssencial2 from "../../../public/assets/abril/bedroom2.png";
+import ImgEssencial3 from "../../../public/assets/abril/bedroom3.png";
+import ImgPremium from "../../../public/assets/abril/bedroom2.png";
+import ImgExecutiva from "../../../public/assets/abril/bedroom1.jpeg";
 
 const SuiteEssencial = () => {
 	const [checkIn, setCheckIn] = useState("");
