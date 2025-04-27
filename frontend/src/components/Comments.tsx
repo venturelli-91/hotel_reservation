@@ -8,7 +8,7 @@ import { Card } from "flowbite-react";
 const Comments = () => {
 	return (
 		<>
-			<div className="flex justify-center items-center mt-16 w-full">
+			<div className="flex justify-center items-center w-full">
 				<div className="flex flex-col items-center justify-center">
 					<h1 className="text-4xl font-extrabold my-10">
 						Depoimentos de nossos clientes

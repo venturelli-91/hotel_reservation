@@ -19,7 +19,12 @@ import ImgExecutiva2 from "../../../public/assets/abril/cafe_manha.jpeg";
 import ImgExecutiva3 from "../../../public/assets/abril/Mask group.png";
 import ImgEssencial from "../../../public/assets/abril/bedroom1.jpeg";
 import ImgPremium from "../../../public/assets/abril/bedroom2.png";
+import ImgRectangle from "../../../public/assets/abril/Rectangle 49.png";
+import ImgStars from "../../../public/assets/abril/Group 34.png";
+import ImgVector from "../../../public/assets/abril/Vector 8.png";
 import Comments from "@/components/Comments";
+import Footer from "@/components/Footer";
+import { Card } from "flowbite-react";
 
 const SuiteExecutiva = () => {
 	const [checkIn, setCheckIn] = useState("");
@@ -42,20 +47,37 @@ const SuiteExecutiva = () => {
 			<Head>
 				<title>Suíte Executiva | Hotel Paradise</title>
 			</Head>
+			<Image
+				src={ImgRectangle}
+				alt="Rectangle"
+				width={2000}
+				height={2000}
+			/>
 
-			{/* Header e descrição breve */}
 			<div className="max-w-7xl mx-auto px-4 py-16">
-				<div className="text-center mb-12">
+				<div className="text-start mb-12">
+					<Image
+						src={ImgStars}
+						alt="Stars"
+						width={100}
+						height={100}
+					/>
 					<h1 className="text-4xl font-extrabold mb-4">Suíte Executiva</h1>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto">
-						Experiência exclusiva com requinte e comodidades premium para o
-						máximo de conforto e luxo durante sua estadia.
+					<Image
+						src={ImgVector}
+						alt="Vector"
+						width={100}
+						height={100}
+					/>
+					<p className="text-xl text-gray-600 max-w-3xl mt-10">
+						Um toque de sofisticação e aconchego, combinando conforto e detalhes
+						elegantes para uma experiência de hospedagem superior.
 					</p>
 				</div>
 
 				{/* Galeria de imagens */}
 				<div className="mb-16">
-					<h2 className="text-2xl font-bold mb-6">Galeria</h2>
+					<h2 className="text-2xl font-bold mb-6 mt-24">Galeria</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						<div className="h-64 overflow-hidden rounded-lg">
 							<Image
@@ -69,7 +91,7 @@ const SuiteExecutiva = () => {
 						<div className="h-64 overflow-hidden rounded-lg">
 							<Image
 								src={ImgExecutiva2}
-								alt="Suíte Executiva - Sala de estar"
+								alt="Suíte Executiva - Banheiro"
 								className="w-full h-full object-cover transition-transform hover:scale-105"
 								width={600}
 								height={400}
@@ -78,7 +100,7 @@ const SuiteExecutiva = () => {
 						<div className="h-64 overflow-hidden rounded-lg">
 							<Image
 								src={ImgExecutiva3}
-								alt="Suíte Executiva - Banheiro spa"
+								alt="Suíte Executiva - Detalhes"
 								className="w-full h-full object-cover transition-transform hover:scale-105"
 								width={600}
 								height={400}
@@ -91,33 +113,19 @@ const SuiteExecutiva = () => {
 					{/* Descrição detalhada e características */}
 					<div className="lg:col-span-2">
 						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Descrição</h2>
+							<h2 className="text-2xl font-bold mb-6 mt-24">Descrição</h2>
 							<p className="text-gray-700 mb-6">
-								Nossa Suíte Executiva representa o ápice da experiência de
-								hospedagem, combinando luxo, conforto e exclusividade em um
-								único espaço. Com 70m², esta suíte oferece ambientes separados
-								para dormir e relaxar, incluindo uma espaçosa sala de estar,
-								quarto com cama super king e um deslumbrante banheiro com
-								acabamentos em mármore e banheira de imersão.
-							</p>
-							<p className="text-gray-700 mb-6">
-								Ideal para hóspedes que buscam o mais alto padrão em hospedagem,
-								a Suíte Executiva conta com amenities exclusivos, janelas do
-								chão ao teto com vista panorâmica e sistema de automação que
-								controla iluminação, cortinas e temperatura através de tablets
-								disponíveis no quarto.
-							</p>
-							<p className="text-gray-700">
-								Os hóspedes da Suíte Executiva têm acesso VIP a todos os
-								serviços do hotel, incluindo check-in e check-out privativo,
-								transfer do aeroporto, acesso ilimitado ao spa, e um exclusivo
-								serviço de mordomo disponível 24 horas para atender todas as
-								suas necessidades.
+								A Suíte Executiva da Pousada Encanto da Serra combina conforto e
+								sofisticação. Com um ambiente amplo e aconchegante, oferece cama
+								king-size, banheira de hidromassagem e sacada privativa com
+								vista para a natureza. Acomodação ideal para quem busca
+								relaxamento e exclusividade, conta com ar-condicionado, Wi-Fi
+								gratuito e café da manhã incluso.
 							</p>
 						</div>
 
 						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Características</h2>
+							<h2 className="text-2xl font-bold mb-6 mt-24">Características</h2>
 							<div className="grid grid-cols-2 gap-4">
 								<div className="flex items-center gap-3">
 									<FaWifi className="text-purple-700 text-xl" />
@@ -153,11 +161,8 @@ const SuiteExecutiva = () => {
 								</div>
 							</div>
 						</div>
-
-						<Comments />
 					</div>
 
-					{/* Formulário de reserva e sugestões */}
 					<div className="lg:col-span-1">
 						<div className="bg-white shadow-lg rounded-lg p-6 mb-10 sticky top-8">
 							<h2 className="text-2xl font-bold mb-6">Reserve Agora</h2>
@@ -197,7 +202,7 @@ const SuiteExecutiva = () => {
 									<input
 										type="number"
 										min="1"
-										max="4"
+										max="3"
 										value={guests}
 										onChange={(e) => setGuests(parseInt(e.target.value))}
 										className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
@@ -226,8 +231,7 @@ const SuiteExecutiva = () => {
 							</form>
 						</div>
 
-						{/* Outras suítes */}
-						<div className="bg-white shadow-lg rounded-lg p-6">
+						<Card>
 							<h2 className="text-2xl font-bold mb-6">Outras Suítes</h2>
 							<div className="space-y-4">
 								<Link
@@ -268,16 +272,18 @@ const SuiteExecutiva = () => {
 										<div>
 											<h3 className="font-bold">Suíte Premium</h3>
 											<p className="text-sm text-gray-600">
-												Elegância e conforto
+												Experiência premium
 											</p>
 										</div>
 									</div>
 								</Link>
 							</div>
-						</div>
+						</Card>
 					</div>
 				</div>
 			</div>
+			<Comments />
+			<Footer />
 		</>
 	);
 };

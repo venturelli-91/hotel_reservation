@@ -23,6 +23,8 @@ import Comments from "@/components/Comments";
 import ImgStars from "../../../public/assets/abril/Group 34.png";
 import ImgVector from "../../../public/assets/abril/Vector 8.png";
 import ImgRectangle from "../../../public/assets/abril/Rectangle 49.png";
+import Footer from "@/components/Footer";
+import { Card } from "flowbite-react";
 
 const SuitePremium = () => {
 	const [checkIn, setCheckIn] = useState("");
@@ -75,7 +77,7 @@ const SuitePremium = () => {
 
 				{/* Galeria de imagens */}
 				<div className="mb-16">
-					<h2 className="text-2xl font-bold mb-6">Galeria</h2>
+					<h2 className="text-2xl font-bold mb-6 mt-24">Galeria</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						<div className="h-64 overflow-hidden rounded-lg">
 							<Image
@@ -111,7 +113,7 @@ const SuitePremium = () => {
 					{/* Descrição detalhada e características */}
 					<div className="lg:col-span-2">
 						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Descrição</h2>
+							<h2 className="text-2xl font-bold mb-6 mt-24">Descrição</h2>
 							<p className="text-gray-700 mb-6">
 								A Suíte Premium da Pousada Encanto da Serra combina conforto e
 								sofisticação. Com um ambiente amplo e aconchegante, oferece cama
@@ -123,7 +125,7 @@ const SuitePremium = () => {
 						</div>
 
 						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Características</h2>
+							<h2 className="text-2xl font-bold mb-6 mt-24">Características</h2>
 							<div className="grid grid-cols-2 gap-4">
 								<div className="flex items-center gap-3">
 									<FaWifi className="text-purple-700 text-xl" />
@@ -159,8 +161,6 @@ const SuitePremium = () => {
 								</div>
 							</div>
 						</div>
-
-						<Comments />
 					</div>
 
 					{/* Formulário de reserva e sugestões */}
@@ -232,8 +232,7 @@ const SuitePremium = () => {
 							</form>
 						</div>
 
-						{/* Outras suítes */}
-						<div className="bg-white shadow-lg rounded-lg p-6">
+						<Card>
 							<h2 className="text-2xl font-bold mb-6">Outras Suítes</h2>
 							<div className="space-y-4">
 								<Link
@@ -280,10 +279,12 @@ const SuitePremium = () => {
 									</div>
 								</Link>
 							</div>
-						</div>
+						</Card>
 					</div>
 				</div>
 			</div>
+			<Comments />
+			<Footer />
 		</>
 	);
 };
