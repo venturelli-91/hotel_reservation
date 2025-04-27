@@ -1,6 +1,5 @@
 import sequelize from "./db";
 
-// Consulta e exibe resultados formatados
 async function consultarSQL(titulo: string, sql: string) {
 	try {
 		console.log(`\n===== ${titulo} =====`);
@@ -26,16 +25,13 @@ async function consultarSQL(titulo: string, sql: string) {
 	}
 }
 
-// Função principal
 async function consultarBancoDados() {
 	try {
-		// Consulta de suítes
 		await consultarSQL(
 			"SUÍTES",
 			`SELECT id, name, type, price, capacity FROM suites ORDER BY id`
 		);
 
-		// Consulta de avaliações
 		await consultarSQL(
 			"AVALIAÇÕES",
 			`SELECT r.id, r."userName" as "usuario", r.rating as "nota", 
@@ -43,7 +39,6 @@ async function consultarBancoDados() {
 			 FROM reviews r JOIN suites s ON r."suiteId" = s.id ORDER BY r.id`
 		);
 
-		// Consulta de reservas
 		await consultarSQL(
 			"RESERVAS",
 			`SELECT r.id, r."checkIn" as "entrada", r."checkOut" as "saida", 

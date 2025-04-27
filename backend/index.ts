@@ -2,11 +2,11 @@ import express, { Request, Response, NextFunction, Router } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import sequelize from "./db";
-import { Suite, Review, SavedSuite, Reservation } from "./models";
+import { Suite, Review, SavedSuite, Reservation, User } from "./models";
+import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 
-// Tipos para Request com userIp
 declare global {
 	namespace Express {
 		interface Request {
@@ -15,12 +15,10 @@ declare global {
 	}
 }
 
-// Configuração do servidor
 const app = express();
 const router = Router();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
 app.use(
 	cors({
 		origin: "*",
@@ -30,7 +28,6 @@ app.use(
 );
 app.use(express.json());
 
-// Middleware para capturar IP
 const captureIp = (req: Request, res: Response, next: NextFunction) => {
 	req.userIp =
 		(req.headers["x-forwarded-for"] as string) ||
@@ -40,7 +37,8 @@ const captureIp = (req: Request, res: Response, next: NextFunction) => {
 };
 app.use(captureIp);
 
-// Rotas de suítes
+app.use("/api/auth", authRoutes);
+
 // @ts-ignore
 router.get("/suites", async (req: Request, res: Response) => {
 	try {
@@ -86,7 +84,6 @@ router.get("/suites/:type", async (req: Request, res: Response) => {
 	}
 });
 
-// Rotas de suítes salvas
 // @ts-ignore
 router.post("/saved-suites", async (req: Request, res: Response) => {
 	try {
@@ -132,7 +129,6 @@ router.get("/saved-suites", async (req: Request, res: Response) => {
 	}
 });
 
-// Rotas de avaliações
 // @ts-ignore
 router.post("/reviews", async (req: Request, res: Response) => {
 	try {
@@ -164,26 +160,22 @@ router.get("/reviews", async (req: Request, res: Response) => {
 	}
 });
 
-// Rotas de reservas
 // @ts-ignore
 router.post("/reservations", async (req: Request, res: Response) => {
 	try {
 		const { suiteId, checkIn, checkOut, guests } = req.body;
 
-		// Validar parâmetros obrigatórios
 		if (!suiteId || !checkIn || !checkOut || !guests) {
 			return res.status(400).json({
 				message: "Dados incompletos. Todos os campos são obrigatórios.",
 			});
 		}
 
-		// Verificar se a suíte existe
 		const suite = await Suite.findByPk(suiteId);
 		if (!suite) {
 			return res.status(404).json({ message: "Suíte não encontrada" });
 		}
 
-		// Criar a reserva
 		const reservation = await Reservation.create({
 			suiteId,
 			checkIn,
@@ -242,12 +234,10 @@ router.delete("/reservations/:id", async (req: Request, res: Response) => {
 			return res.status(404).json({ message: "Reserva não encontrada" });
 		}
 
-		// Verificar se a reserva pertence ao usuário atual
 		if (reservation.userIp !== userIp) {
 			return res.status(403).json({ message: "Acesso não autorizado" });
 		}
 
-		// Atualizar o status em vez de excluir
 		reservation.status = "cancelada";
 		await reservation.save();
 
@@ -258,10 +248,8 @@ router.delete("/reservations/:id", async (req: Request, res: Response) => {
 	}
 });
 
-// Registrar as rotas e iniciar servidor
 app.use("/api", router);
 
-// Iniciar servidor
 const startServer = async () => {
 	try {
 		await sequelize.sync();

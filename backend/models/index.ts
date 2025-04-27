@@ -2,8 +2,8 @@ import Suite from "./Suite";
 import SavedSuite from "./SavedSuite";
 import Review from "./Review";
 import Reservation from "./Reservation";
+import User from "./User";
 
-// Definir relacionamentos
 Suite.hasMany(Review, { foreignKey: "suiteId", as: "reviews" });
 Review.belongsTo(Suite, { foreignKey: "suiteId" });
 
@@ -13,4 +13,4 @@ SavedSuite.belongsTo(Suite, { foreignKey: "suiteId" });
 Suite.hasMany(Reservation, { foreignKey: "suiteId", as: "reservations" });
 Reservation.belongsTo(Suite, { foreignKey: "suiteId" });
 
-export { Suite, SavedSuite, Review, Reservation };
+export { Suite, SavedSuite, Review, Reservation, User };

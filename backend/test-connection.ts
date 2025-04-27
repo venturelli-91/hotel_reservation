@@ -1,6 +1,5 @@
 import { Client } from "pg";
 
-// Configuração de conexão
 interface DbConfig {
 	host: string;
 	port: number;
@@ -28,7 +27,6 @@ console.log("Tentando conectar ao PostgreSQL...");
 
 const client = new Client(config);
 
-// Eventos para capturar possíveis problemas
 client.on("error", (err: Error) => {
 	console.error("Erro no cliente:", err);
 });

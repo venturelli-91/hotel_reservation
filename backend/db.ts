@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Configuração do Sequelize com logging detalhado e aumento de timeout
 const sequelize = new Sequelize({
 	dialect: "postgres",
 	host: process.env.DB_HOST || "localhost",
@@ -13,18 +12,17 @@ const sequelize = new Sequelize({
 	database: process.env.DB_NAME || "reservations",
 	logging: false,
 	dialectOptions: {
-		connectTimeout: 60000, // Aumento do timeout para 60 segundos
-		// Configurações SSL desativadas para desenvolvimento local
+		connectTimeout: 60000,
 		ssl: false,
 	},
 	pool: {
-		max: 5, // Máximo de conexões no pool
-		min: 0, // Mínimo de conexões no pool
-		acquire: 30000, // Tempo limite para obter uma conexão (ms)
-		idle: 10000, // Tempo máximo que uma conexão pode ficar ociosa (ms)
+		max: 5,
+		min: 0,
+		acquire: 30000,
+		idle: 10000,
 	},
 	retry: {
-		max: 3, // Número máximo de tentativas de reconexão
+		max: 3,
 	},
 });
 

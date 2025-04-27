@@ -14,7 +14,6 @@ interface Suite {
 	updatedAt: Date;
 }
 
-// Interface para representar uma reserva
 interface Reservation {
 	id: number;
 	suiteId: number;
@@ -27,7 +26,6 @@ interface Reservation {
 	updatedAt: Date;
 }
 
-// Função de teste do banco de dados e modelos
 async function testDatabase(): Promise<void> {
 	try {
 		const sequelize = new Sequelize({
@@ -40,11 +38,9 @@ async function testDatabase(): Promise<void> {
 			logging: false,
 		});
 
-		// Testar conexão
 		await sequelize.authenticate();
 		console.log("✅ Conexão ao banco de dados estabelecida com sucesso");
 
-		// Verificar tabelas existentes
 		const tables = await sequelize.query<{ tablename: string }>(
 			`SELECT tablename FROM pg_catalog.pg_tables
       WHERE schemaname = 'public'
@@ -61,7 +57,6 @@ async function testDatabase(): Promise<void> {
 			});
 		}
 
-		// Verificar se existem suítes cadastradas
 		try {
 			const suites = await sequelize.query<Suite>(
 				"SELECT * FROM suites LIMIT 5",
@@ -77,7 +72,6 @@ async function testDatabase(): Promise<void> {
 			console.log("\n❌ Erro ao consultar suítes:", error.message);
 		}
 
-		// Verificar se existem reservas cadastradas
 		try {
 			const reservations = await sequelize.query<Reservation>(
 				"SELECT * FROM reservations LIMIT 5",
@@ -100,7 +94,6 @@ async function testDatabase(): Promise<void> {
 			console.log("\n❌ Erro ao consultar reservas:", error.message);
 		}
 
-		// Fechar conexão
 		await sequelize.close();
 		console.log("\n✅ Teste concluído com sucesso");
 	} catch (error: any) {
@@ -115,6 +108,5 @@ async function testDatabase(): Promise<void> {
 	}
 }
 
-// Executar teste
 console.log("🔍 Iniciando teste do banco de dados...\n");
 testDatabase();

@@ -1,0 +1,6 @@
+{
+	"watch": ["*.ts", "**/*.ts"],
+	"ext": "ts,json",
+	"ignore": ["node_modules", "dist"],
+	"exec": "ts-node index.ts"
+}

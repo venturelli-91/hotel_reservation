@@ -1,9 +1,7 @@
 import { Suite, Review, Reservation } from "./models";
 
-// Consulta modelos através do Sequelize
 async function consultarDados() {
 	try {
-		// Consultar suítes
 		const suites = await Suite.findAll();
 		console.log("\n===== SUÍTES =====");
 		console.log(`Total: ${suites.length} suíte(s)`);
@@ -15,7 +13,6 @@ async function consultarDados() {
 			console.log(`Capacidade: ${suite.capacity} pessoa(s)`);
 		});
 
-		// Consultar avaliações
 		const reviews = await Review.findAll({
 			include: [{ model: Suite, attributes: ["name"] }],
 		});
@@ -31,7 +28,6 @@ async function consultarDados() {
 			console.log(`Comentário: ${review.comment}`);
 		});
 
-		// Consultar reservas
 		const reservations = await Reservation.findAll({
 			include: [{ model: Suite, attributes: ["name"] }],
 		});

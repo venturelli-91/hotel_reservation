@@ -4,6 +4,7 @@ import sequelize from "../db";
 class Reservation extends Model {
 	public id!: number;
 	public suiteId!: number;
+	public userId!: number;
 	public checkIn!: string;
 	public checkOut!: string;
 	public guests!: number;
@@ -25,6 +26,14 @@ Reservation.init(
 			allowNull: false,
 			references: {
 				model: "suites",
+				key: "id",
+			},
+		},
+		userId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+			references: {
+				model: "users",
 				key: "id",
 			},
 		},

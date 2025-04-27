@@ -3,14 +3,11 @@ import { Suite, Review, SavedSuite, Reservation } from "./models";
 
 const setupDatabase = async () => {
 	try {
-		// Testar a conexão com o banco de dados
 		await sequelize.authenticate();
 		console.log("✅ Conexão com o banco de dados estabelecida com sucesso!");
 
-		// Recriar as tabelas (isso vai dropar todas as tabelas existentes e recriar)
 		await sequelize.sync({ force: true });
 
-		// Criar algumas suítes de amostra
 		const suites = await Suite.bulkCreate([
 			{
 				name: "Suíte Essencial",
@@ -91,9 +88,8 @@ const setupDatabase = async () => {
 			},
 		]);
 
-		console.log("✅ Suítes de amostra criadas com sucesso!");
+		console.log(`✅ ${suites.length} suítes de amostra criadas com sucesso!`);
 
-		// Criar algumas avaliações de exemplo
 		await Review.bulkCreate([
 			{
 				suiteId: 1,
@@ -121,7 +117,6 @@ const setupDatabase = async () => {
 
 		console.log("✅ Avaliações de teste criadas com sucesso!");
 
-		// Criar algumas reservas de exemplo
 		await Reservation.bulkCreate([
 			{
 				suiteId: 1,
@@ -153,7 +148,7 @@ const setupDatabase = async () => {
 	} catch (error) {
 		console.error("❌ Erro durante a configuração do banco de dados:", error);
 	} finally {
-		// Aqui não vamos fechar a conexão, pois o servidor precisa dela
+		await sequelize.close();
 	}
 };
 
