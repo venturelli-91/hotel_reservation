@@ -1,0 +1,14 @@
+# Copie o conteúdo abaixo para um arquivo chamado .env na pasta backend
+
+# Configurações do Banco de Dados
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=reservations
+DB_USER=postgres
+DB_PASSWORD=Colorido@70
+
+# Configurações de Autenticação
+JWT_SECRET=chave_secreta_muito_segura_para_autenticacao
+
+# Configurações do Servidor
+PORT=3001 
