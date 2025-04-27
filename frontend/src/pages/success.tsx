@@ -17,14 +17,12 @@ const SuccessPage = () => {
 	const [error, setError] = useState("");
 
 	useEffect(() => {
-		// Recuperar dados da localStorage se disponível
 		const storedData = localStorage.getItem("reservationData");
 		if (storedData) {
 			try {
 				const parsedData = JSON.parse(storedData);
 				setReservationData(parsedData);
 
-				// Opcional: limpar dados após ler
 				localStorage.removeItem("reservationData");
 			} catch (err) {
 				console.error("Erro ao analisar dados da reserva:", err);

@@ -36,7 +36,6 @@ const SuiteEssencial = () => {
 
 	const handleReservation = (e: React.FormEvent) => {
 		e.preventDefault();
-		// Redirecionar para página de sucesso
 		window.location.href = "/success";
 	};
 
@@ -82,7 +81,6 @@ const SuiteEssencial = () => {
 					</p>
 				</div>
 
-				{/* Galeria de imagens */}
 				<div className="mb-16">
 					<h2 className="text-2xl font-bold mb-6 mt-16">Galeria</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -117,7 +115,6 @@ const SuiteEssencial = () => {
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-					{/* Descrição detalhada e características */}
 					<div className="lg:col-span-2">
 						<div className="mb-10">
 							<h2 className="text-2xl font-bold mb-6 mt-16">Descrição</h2>
@@ -164,7 +161,6 @@ const SuiteEssencial = () => {
 						</div>
 					</div>
 
-					{/* Formulário de reserva e sugestões */}
 					<div className="lg:col-span-1">
 						<div className="bg-white shadow-lg rounded-lg p-6 mb-10 sticky top-8">
 							<h2 className="text-2xl font-bold mb-6">Reserve Agora</h2>

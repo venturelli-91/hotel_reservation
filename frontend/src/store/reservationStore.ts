@@ -1,12 +1,22 @@
 import { create } from "zustand";
 
+export interface SuiteInfo {
+	id: number;
+	isSaved: boolean;
+}
+
+export interface ReservationData {
+	suiteId: number | null;
+	checkIn: string;
+	checkOut: string;
+	guests: number;
+}
+
 export interface ReservationFormData {
-	nomeCompleto: string;
-	email: string;
-	telefone: string;
-	dataEntrada: string;
-	dataSaida: string;
-	qtdPessoas: number;
+	suiteId: number | null;
+	checkIn: string;
+	checkOut: string;
+	guests: number;
 }
 
 export interface ReservationFormErrors {
@@ -17,20 +27,25 @@ interface ReservationStore {
 	formData: ReservationFormData;
 	formErrors: ReservationFormErrors;
 
-	setField: (field: keyof ReservationFormData, value: string | number) => void;
-	incrementarPessoas: () => void;
-	decrementarPessoas: () => void;
+	setSuiteInfo: (suiteInfo: SuiteInfo) => void;
+	setField: (
+		field: keyof ReservationFormData,
+		value: string | number | null
+	) => void;
+	incrementarHospedes: () => void;
+	decrementarHospedes: () => void;
+	setInitialGuests: (guests: number) => void;
 	validarFormulario: () => { valido: boolean; mensagem: string };
 	resetarFormulario: () => void;
+	formatarDadosParaEnvio: () => ReservationData;
+	salvarReservaEmMemoria: () => void;
 }
 
 const initialFormData: ReservationFormData = {
-	nomeCompleto: "",
-	email: "",
-	telefone: "",
-	dataEntrada: "",
-	dataSaida: "",
-	qtdPessoas: 0,
+	suiteId: null,
+	checkIn: "",
+	checkOut: "",
+	guests: 1,
 };
 
 const initialFormErrors: ReservationFormErrors = {
@@ -41,6 +56,15 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 	formData: initialFormData,
 	formErrors: initialFormErrors,
 
+	setSuiteInfo: (suiteInfo) => {
+		set((state) => ({
+			formData: {
+				...state.formData,
+				suiteId: suiteInfo.id,
+			},
+		}));
+	},
+
 	setField: (field, value) => {
 		set((state) => {
 			const newFormData = {
@@ -50,21 +74,17 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 
 			const newFormErrors = { ...state.formErrors };
 
-			if (field === "dataEntrada" || field === "dataSaida") {
-				const { dataEntrada, dataSaida } = newFormData;
+			if (field === "checkIn" || field === "checkOut") {
+				const { checkIn, checkOut } = newFormData;
 
-				if (dataEntrada && dataSaida) {
-					const dataEntradaObj = new Date(
-						dataEntrada.split("/").reverse().join("-")
-					);
-					const dataSaidaObj = new Date(
-						dataSaida.split("/").reverse().join("-")
-					);
+				if (checkIn && checkOut) {
+					const checkInDate = new Date(checkIn);
+					const checkOutDate = new Date(checkOut);
 
-					const minDataSaida = new Date(dataEntradaObj);
-					minDataSaida.setDate(minDataSaida.getDate() + 4);
+					const minCheckOutDate = new Date(checkInDate);
+					minCheckOutDate.setDate(minCheckOutDate.getDate() + 4);
 
-					if (dataSaidaObj < minDataSaida) {
+					if (checkOutDate < minCheckOutDate) {
 						newFormErrors.dataErro =
 							"A data de saída deve ser pelo menos 4 dias após a data de entrada";
 					} else {
@@ -77,21 +97,29 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 		});
 	},
 
-	incrementarPessoas: () => {
+	incrementarHospedes: () => {
 		set((state) => ({
 			formData: {
 				...state.formData,
-				qtdPessoas: state.formData.qtdPessoas + 1,
+				guests: Math.min(state.formData.guests + 1, 3), // Limitando a 3 hóspedes
 			},
 		}));
 	},
 
-	decrementarPessoas: () => {
+	decrementarHospedes: () => {
 		set((state) => ({
 			formData: {
 				...state.formData,
-				qtdPessoas:
-					state.formData.qtdPessoas > 0 ? state.formData.qtdPessoas - 1 : 0,
+				guests: Math.max(state.formData.guests - 1, 1), // Mínimo de 1 hóspede
+			},
+		}));
+	},
+
+	setInitialGuests: (guests) => {
+		set((state) => ({
+			formData: {
+				...state.formData,
+				guests,
 			},
 		}));
 	},
@@ -99,56 +127,50 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 	validarFormulario: () => {
 		const { formData, formErrors } = get();
 
-		if (formData.qtdPessoas <= 0) {
-			return {
-				valido: false,
-				mensagem: "Por favor, selecione pelo menos 1 pessoa.",
-			};
-		}
-
 		if (formErrors.dataErro) {
 			return {
 				valido: false,
-				mensagem: "Por favor, corrija os erros no formulário antes de enviar.",
+				mensagem: formErrors.dataErro,
 			};
 		}
 
-		if (!formData.nomeCompleto.trim()) {
+		if (!formData.checkIn) {
 			return {
 				valido: false,
-				mensagem: "Por favor, preencha o nome completo.",
+				mensagem: "Por favor, selecione a data de check-in.",
 			};
 		}
 
-		if (!formData.email.trim()) {
+		if (!formData.checkOut) {
 			return {
 				valido: false,
-				mensagem: "Por favor, preencha o email.",
+				mensagem: "Por favor, selecione a data de check-out.",
 			};
 		}
 
-		if (!formData.telefone.trim()) {
+		if (formData.guests < 1) {
 			return {
 				valido: false,
-				mensagem: "Por favor, preencha o número de telefone.",
-			};
-		}
-
-		if (!formData.dataEntrada.trim()) {
-			return {
-				valido: false,
-				mensagem: "Por favor, preencha a data de entrada.",
-			};
-		}
-
-		if (!formData.dataSaida.trim()) {
-			return {
-				valido: false,
-				mensagem: "Por favor, preencha a data de saída.",
+				mensagem: "Por favor, selecione pelo menos 1 hóspede.",
 			};
 		}
 
 		return { valido: true, mensagem: "" };
+	},
+
+	formatarDadosParaEnvio: () => {
+		const { formData } = get();
+		return {
+			suiteId: formData.suiteId,
+			checkIn: formData.checkIn,
+			checkOut: formData.checkOut,
+			guests: formData.guests,
+		};
+	},
+
+	salvarReservaEmMemoria: () => {
+		const dadosFormatados = get().formatarDadosParaEnvio();
+		localStorage.setItem("reservationData", JSON.stringify(dadosFormatados));
 	},
 
 	resetarFormulario: () => {

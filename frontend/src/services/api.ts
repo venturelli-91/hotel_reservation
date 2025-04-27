@@ -46,24 +46,4 @@ export const reviewsApi = {
 	},
 };
 
-export const reservationsApi = {
-	create: async (reservationData: {
-		suiteId: number;
-		nomeCompleto: string;
-		email: string;
-		telefone: string;
-		dataEntrada: string;
-		dataSaida: string;
-		qtdPessoas: number;
-	}) => {
-		const response = await api.post("/reservations", reservationData);
-		return response.data;
-	},
-
-	getById: async (id: number) => {
-		const response = await api.get(`/reservations/${id}`);
-		return response.data;
-	},
-};
-
 export default api;

@@ -27,28 +27,43 @@ import Comments from "@/components/Comments";
 import Footer from "@/components/Footer";
 import { Card } from "flowbite-react";
 import { suitesApi } from "@/services/api";
+import { useReservationStore } from "@/store/reservationStore";
+import { useRouter } from "next/router";
 
 const SuiteExecutiva = () => {
-	const [checkIn, setCheckIn] = useState("");
-	const [checkOut, setCheckOut] = useState("");
-	const [guests, setGuests] = useState(2);
 	const [savedRoom, setSavedRoom] = useState(false);
 	const [suiteId, setSuiteId] = useState<number | null>(null);
+	const router = useRouter();
 
-	// Carregar dados da suíte e verificar se está salva
+	const {
+		formData,
+		setField,
+		incrementarHospedes,
+		decrementarHospedes,
+		setSuiteInfo,
+		setInitialGuests,
+		validarFormulario,
+		salvarReservaEmMemoria,
+		resetarFormulario,
+	} = useReservationStore();
+
 	useEffect(() => {
 		const fetchSuiteData = async () => {
 			try {
 				const data = await suitesApi.getByType("executiva");
 				setSavedRoom(data.isSaved);
 				setSuiteId(data.id);
+
+				setSuiteInfo({ id: data.id, isSaved: data.isSaved });
+				resetarFormulario();
+				setInitialGuests(2);
 			} catch (error) {
 				console.error("Erro ao carregar dados da suíte:", error);
 			}
 		};
 
 		fetchSuiteData();
-	}, []);
+	}, [setSuiteInfo, resetarFormulario, setInitialGuests]);
 
 	const handleSaveRoom = async () => {
 		try {
@@ -63,19 +78,16 @@ const SuiteExecutiva = () => {
 
 	const handleReservation = (e: React.FormEvent) => {
 		e.preventDefault();
-		// Redirecionar para página de sucesso com os dados da reserva
-		const reservationData = {
-			suiteId: suiteId,
-			checkIn,
-			checkOut,
-			guests,
-		};
 
-		// Salvar na localStorage para usar na página de sucesso
-		localStorage.setItem("reservationData", JSON.stringify(reservationData));
+		const { valido, mensagem } = validarFormulario();
 
-		// Redirecionar
-		window.location.href = "/success";
+		if (!valido) {
+			alert(mensagem);
+			return;
+		}
+
+		salvarReservaEmMemoria();
+		router.push("/success");
 	};
 
 	return (
@@ -120,7 +132,6 @@ const SuiteExecutiva = () => {
 					</p>
 				</div>
 
-				{/* Galeria de imagens */}
 				<div className="mb-16">
 					<h2 className="text-2xl font-bold mb-6 mt-24">Galeria</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -155,7 +166,6 @@ const SuiteExecutiva = () => {
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-					{/* Descrição detalhada e características */}
 					<div className="lg:col-span-2">
 						<div className="mb-10">
 							<h2 className="text-2xl font-bold mb-6 mt-24">Descrição</h2>
@@ -220,8 +230,8 @@ const SuiteExecutiva = () => {
 									</label>
 									<input
 										type="date"
-										value={checkIn}
-										onChange={(e) => setCheckIn(e.target.value)}
+										value={formData.checkIn}
+										onChange={(e) => setField("checkIn", e.target.value)}
 										className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
 										required
 									/>
@@ -233,8 +243,8 @@ const SuiteExecutiva = () => {
 									</label>
 									<input
 										type="date"
-										value={checkOut}
-										onChange={(e) => setCheckOut(e.target.value)}
+										value={formData.checkOut}
+										onChange={(e) => setField("checkOut", e.target.value)}
 										className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
 										required
 									/>
@@ -244,15 +254,33 @@ const SuiteExecutiva = () => {
 									<label className=" text-gray-700 mb-2 flex items-center">
 										<FaUsers className="mr-2" /> Número de hóspedes
 									</label>
-									<input
-										type="number"
-										min="1"
-										max="3"
-										value={guests}
-										onChange={(e) => setGuests(parseInt(e.target.value))}
-										className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-										required
-									/>
+									<div className="flex items-center space-x-2">
+										<button
+											type="button"
+											onClick={decrementarHospedes}
+											className="bg-gray-100 rounded-lg p-2 hover:bg-gray-200"
+											aria-label="Decrementar hóspedes">
+											-
+										</button>
+										<input
+											type="number"
+											min="1"
+											max="3"
+											value={formData.guests}
+											onChange={(e) =>
+												setField("guests", parseInt(e.target.value))
+											}
+											className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-center"
+											required
+										/>
+										<button
+											type="button"
+											onClick={incrementarHospedes}
+											className="bg-gray-100 rounded-lg p-2 hover:bg-gray-200"
+											aria-label="Incrementar hóspedes">
+											+
+										</button>
+									</div>
 								</div>
 
 								<div className="flex space-x-4 pt-4">
@@ -327,10 +355,7 @@ const SuiteExecutiva = () => {
 					</div>
 				</div>
 			</div>
-			<Comments
-				suiteId={suiteId || undefined}
-				suiteType="executiva"
-			/>
+			<Comments suiteId={suiteId || undefined} />
 			<Footer />
 		</>
 	);

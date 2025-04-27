@@ -96,11 +96,9 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 				comment: formData.comment,
 			});
 
-			// Recarregar avaliações
 			const updatedReviews = await reviewsApi.getAll(currentSuiteId);
 			setReviews(updatedReviews);
 
-			// Resetar o formulário
 			setFormData({
 				userName: "",
 				rating: 5,
@@ -110,7 +108,6 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 			setSuccess("Avaliação enviada com sucesso!");
 			setShowForm(false);
 
-			// Limpar mensagem de sucesso após 3 segundos
 			setTimeout(() => {
 				setSuccess("");
 			}, 3000);
@@ -144,7 +141,6 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 				</div>
 			</div>
 
-			{/* Mostrar mensagens de erro/sucesso */}
 			{error && (
 				<div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
 					{error}
@@ -157,7 +153,6 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 				</div>
 			)}
 
-			{/* Botão para mostrar o formulário */}
 			<div className="flex justify-center my-8">
 				<Button
 					color="purple"
@@ -166,7 +161,6 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 				</Button>
 			</div>
 
-			{/* Formulário de avaliação */}
 			{showForm && (
 				<div className="max-w-2xl mx-auto mb-10 p-6 bg-white rounded-lg shadow-md">
 					<h2 className="text-xl font-bold mb-4">Deixe sua avaliação</h2>
@@ -228,7 +222,6 @@ const Comments: React.FC<CommentsProps> = ({ suiteId }) => {
 				</div>
 			)}
 
-			{/* Lista de avaliações */}
 			<div className="flex mt-8 gap-4 flex-wrap justify-center items-stretch">
 				{loading ? (
 					<p className="text-center">Carregando avaliações...</p>
