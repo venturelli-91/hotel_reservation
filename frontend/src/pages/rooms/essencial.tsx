@@ -17,6 +17,7 @@ import ImgEssencial2 from "../../../public/assets/abril/bedroom2.png";
 import ImgEssencial3 from "../../../public/assets/abril/bedroom3.png";
 import ImgPremium from "../../../public/assets/abril/bedroom2.png";
 import ImgExecutiva from "../../../public/assets/abril/bedroom1.jpeg";
+import Comments from "@/components/Comments";
 
 const SuiteEssencial = () => {
 	const [checkIn, setCheckIn] = useState("");
@@ -137,39 +138,11 @@ const SuiteEssencial = () => {
 							</div>
 						</div>
 
-						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Avaliações</h2>
-							<div className="space-y-6">
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">Maria S.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★★</div>
-									</div>
-									<p className="text-gray-700">
-										&quot;Adorei minha estadia na Suíte Essencial! O quarto é
-										muito confortável, limpo e tem tudo o que precisamos. A cama
-										é excelente e dormi muito bem. Recomendo para quem busca
-										custo-benefício.&quot;
-									</p>
-								</div>
-
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">João P.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★☆</div>
-									</div>
-									<p className="text-gray-700">
-										&quot;Quarto confortável e bem localizado. O Wi-Fi funcionou
-										perfeitamente e o chuveiro tem ótima pressão. Único ponto a
-										melhorar seria o isolamento acústico.&quot;
-									</p>
-								</div>
-							</div>
-						</div>
+						<Comments />
 					</div>
+				</div>
 
+				<div className="lg:col-span-1">
 					<div className="lg:col-span-1">
 						<div className="bg-white shadow-lg rounded-lg p-6 mb-10 sticky top-8">
 							<h2 className="text-2xl font-bold mb-6">Reserve Agora</h2>

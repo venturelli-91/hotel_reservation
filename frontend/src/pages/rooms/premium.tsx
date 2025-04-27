@@ -19,6 +19,10 @@ import ImgPremium2 from "../../../public/assets/abril/Casa_praia.jpeg";
 import ImgPremium3 from "../../../public/assets/abril/outdoor_kitchen.jpeg";
 import ImgEssencial from "../../../public/assets/abril/cafe_manha.jpeg";
 import ImgExecutiva from "../../../public/assets/abril/bedroom1.jpeg";
+import Comments from "@/components/Comments";
+import ImgStars from "../../../public/assets/abril/Group 34.png";
+import ImgVector from "../../../public/assets/abril/Vector 8.png";
+import ImgRectangle from "../../../public/assets/abril/Rectangle 49.png";
 
 const SuitePremium = () => {
 	const [checkIn, setCheckIn] = useState("");
@@ -41,12 +45,29 @@ const SuitePremium = () => {
 			<Head>
 				<title>Suíte Premium | Hotel Paradise</title>
 			</Head>
+			<Image
+				src={ImgRectangle}
+				alt="Rectangle"
+				width={2000}
+				height={2000}
+			/>
 
-			{/* Header e descrição breve */}
 			<div className="max-w-7xl mx-auto px-4 py-16">
-				<div className="text-center mb-12">
+				<div className="text-start mb-12">
+					<Image
+						src={ImgStars}
+						alt="Stars"
+						width={100}
+						height={100}
+					/>
 					<h1 className="text-4xl font-extrabold mb-4">Suíte Premium</h1>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto">
+					<Image
+						src={ImgVector}
+						alt="Vector"
+						width={100}
+						height={100}
+					/>
+					<p className="text-xl text-gray-600 max-w-3xl mt-10">
 						Um toque de sofisticação e aconchego, combinando conforto e detalhes
 						elegantes para uma experiência de hospedagem superior.
 					</p>
@@ -92,25 +113,12 @@ const SuitePremium = () => {
 						<div className="mb-10">
 							<h2 className="text-2xl font-bold mb-6">Descrição</h2>
 							<p className="text-gray-700 mb-6">
-								Nossa Suíte Premium eleva sua experiência de hospedagem a um
-								novo patamar. Com ambientes amplos e cuidadosamente decorados,
-								essa acomodação foi projetada para proporcionar o equilíbrio
-								perfeito entre elegância e conforto. A suíte conta com uma cama
-								king size com lençóis de 400 fios, área de estar separada e um
-								luxuoso banheiro com banheira de hidromassagem.
-							</p>
-							<p className="text-gray-700 mb-6">
-								O espaço é ideal para casais ou viajantes a negócios que buscam
-								um ambiente sofisticado para relaxar e trabalhar. A suíte inclui
-								uma pequena área de trabalho ergonômica, blackout total nas
-								cortinas e um sistema de som ambiente para criar a atmosfera
-								perfeita para qualquer momento.
-							</p>
-							<p className="text-gray-700">
-								Os hóspedes da Suíte Premium têm acesso preferencial ao spa do
-								hotel e um welcome drink servido no restaurante do hotel. O
-								serviço de quarto está disponível 24 horas para garantir todo o
-								conforto durante sua estadia.
+								A Suíte Premium da Pousada Encanto da Serra combina conforto e
+								sofisticação. Com um ambiente amplo e aconchegante, oferece cama
+								king-size, banheira de hidromassagem e sacada privativa com
+								vista para a natureza. Acomodação ideal para quem busca
+								relaxamento e exclusividade, conta com ar-condicionado, Wi-Fi
+								gratuito e café da manhã incluso.
 							</p>
 						</div>
 
@@ -152,39 +160,7 @@ const SuitePremium = () => {
 							</div>
 						</div>
 
-						{/* Avaliações dos usuários */}
-						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Avaliações</h2>
-							<div className="space-y-6">
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">Ana R.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★★</div>
-									</div>
-									<p className="text-gray-700">
-										&ldquo;Ficamos hospedados na Suíte Premium para comemorar
-										nosso aniversário de casamento e foi incrível! A banheira de
-										hidromassagem é maravilhosa e a cama extremamente
-										confortável. O serviço impecável.&rdquo;
-									</p>
-								</div>
-
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">Carlos M.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★★</div>
-									</div>
-									<p className="text-gray-700">
-										&ldquo;Viajo a negócios frequentemente e esta suite é
-										perfeita. O espaço de trabalho é muito funcional e o Wi-Fi é
-										realmente rápido. A localização do hotel também é excelente,
-										perto de tudo.&rdquo;
-									</p>
-								</div>
-							</div>
-						</div>
+						<Comments />
 					</div>
 
 					{/* Formulário de reserva e sugestões */}

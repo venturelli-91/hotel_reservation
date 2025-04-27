@@ -19,6 +19,7 @@ import ImgExecutiva2 from "../../../public/assets/abril/cafe_manha.jpeg";
 import ImgExecutiva3 from "../../../public/assets/abril/Mask group.png";
 import ImgEssencial from "../../../public/assets/abril/bedroom1.jpeg";
 import ImgPremium from "../../../public/assets/abril/bedroom2.png";
+import Comments from "@/components/Comments";
 
 const SuiteExecutiva = () => {
 	const [checkIn, setCheckIn] = useState("");
@@ -153,40 +154,7 @@ const SuiteExecutiva = () => {
 							</div>
 						</div>
 
-						{/* Avaliações dos usuários */}
-						<div className="mb-10">
-							<h2 className="text-2xl font-bold mb-6">Avaliações</h2>
-							<div className="space-y-6">
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">Roberto L.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★★</div>
-									</div>
-									<p className="text-gray-700">
-										&ldquo;Simplesmente indescritível! A Suíte Executiva superou
-										todas as expectativas. O serviço de mordomo foi impecável e
-										o banheiro com sauna privativa é um diferencial incrível. Já
-										estou planejando minha próxima estadia.&rdquo;
-									</p>
-								</div>
-
-								<div className="bg-gray-50 p-6 rounded-lg">
-									<div className="flex items-center mb-2">
-										<div className="font-bold">Julia T.</div>
-										<div className="mx-2">•</div>
-										<div className="text-yellow-500">★★★★★</div>
-									</div>
-									<p className="text-gray-700">
-										&ldquo;Fiquei hospedada durante uma semana na Suíte
-										Executiva e foi uma experiência transformadora. A vista é
-										espetacular, a cama é a mais confortável em que já dormi e o
-										tratamento de spa incluído foi revigorante. Vale cada
-										centavo!&rdquo;
-									</p>
-								</div>
-							</div>
-						</div>
+						<Comments />
 					</div>
 
 					{/* Formulário de reserva e sugestões */}
