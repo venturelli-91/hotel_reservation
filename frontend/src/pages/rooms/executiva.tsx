@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -12,6 +12,7 @@ import {
 	FaBed,
 	FaSpa,
 	FaKey,
+	FaHome,
 } from "react-icons/fa";
 import Head from "next/head";
 import ImgExecutiva1 from "../../../public/assets/abril/lovely.jpeg";
@@ -25,20 +26,55 @@ import ImgVector from "../../../public/assets/abril/Vector 8.png";
 import Comments from "@/components/Comments";
 import Footer from "@/components/Footer";
 import { Card } from "flowbite-react";
+import { suitesApi } from "@/services/api";
 
 const SuiteExecutiva = () => {
 	const [checkIn, setCheckIn] = useState("");
 	const [checkOut, setCheckOut] = useState("");
 	const [guests, setGuests] = useState(2);
 	const [savedRoom, setSavedRoom] = useState(false);
+	const [suiteId, setSuiteId] = useState<number | null>(null);
 
-	const handleSaveRoom = () => {
-		setSavedRoom(!savedRoom);
+	// Carregar dados da suíte e verificar se está salva
+	useEffect(() => {
+		const fetchSuiteData = async () => {
+			try {
+				const data = await suitesApi.getByType("executiva");
+				setSavedRoom(data.isSaved);
+				setSuiteId(data.id);
+			} catch (error) {
+				console.error("Erro ao carregar dados da suíte:", error);
+			}
+		};
+
+		fetchSuiteData();
+	}, []);
+
+	const handleSaveRoom = async () => {
+		try {
+			if (suiteId) {
+				await suitesApi.toggleSave(suiteId, !savedRoom);
+				setSavedRoom(!savedRoom);
+			}
+		} catch (error) {
+			console.error("Erro ao salvar/remover acomodação:", error);
+		}
 	};
 
 	const handleReservation = (e: React.FormEvent) => {
 		e.preventDefault();
-		// Redirecionar para página de sucesso
+		// Redirecionar para página de sucesso com os dados da reserva
+		const reservationData = {
+			suiteId: suiteId,
+			checkIn,
+			checkOut,
+			guests,
+		};
+
+		// Salvar na localStorage para usar na página de sucesso
+		localStorage.setItem("reservationData", JSON.stringify(reservationData));
+
+		// Redirecionar
 		window.location.href = "/success";
 	};
 
@@ -47,12 +83,21 @@ const SuiteExecutiva = () => {
 			<Head>
 				<title>Suíte Executiva | Hotel Paradise</title>
 			</Head>
-			<Image
-				src={ImgRectangle}
-				alt="Rectangle"
-				width={2000}
-				height={2000}
-			/>
+			<div className="relative">
+				<Image
+					src={ImgRectangle}
+					alt="Rectangle"
+					width={2000}
+					height={2000}
+				/>
+				<div className="absolute top-1/2 left-16 transform -translate-y-1/2">
+					<Link
+						href="/"
+						className="text-white font-bold text-2xl hover:underline flex items-center">
+						<FaHome className="mr-2" /> HomePage
+					</Link>
+				</div>
+			</div>
 
 			<div className="max-w-7xl mx-auto px-4 py-16">
 				<div className="text-start mb-12">
@@ -282,7 +327,10 @@ const SuiteExecutiva = () => {
 					</div>
 				</div>
 			</div>
-			<Comments />
+			<Comments
+				suiteId={suiteId || undefined}
+				suiteType="executiva"
+			/>
 			<Footer />
 		</>
 	);

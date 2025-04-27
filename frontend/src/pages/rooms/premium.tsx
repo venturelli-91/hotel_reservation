@@ -12,6 +12,7 @@ import {
 	FaBed,
 	FaCocktail,
 	FaConciergeBell,
+	FaHome,
 } from "react-icons/fa";
 import Head from "next/head";
 import ImgPremium1 from "../../../public/assets/abril/Villa.jpeg";
@@ -47,12 +48,21 @@ const SuitePremium = () => {
 			<Head>
 				<title>Suíte Premium | Hotel Paradise</title>
 			</Head>
-			<Image
-				src={ImgRectangle}
-				alt="Rectangle"
-				width={2000}
-				height={2000}
-			/>
+			<div className="relative">
+				<Image
+					src={ImgRectangle}
+					alt="Rectangle"
+					width={2000}
+					height={2000}
+				/>
+				<div className="absolute top-1/2 left-16 transform -translate-y-1/2">
+					<Link
+						href="/"
+						className="text-white font-bold text-2xl hover:underline flex items-center">
+						<FaHome className="mr-2" /> HomePage
+					</Link>
+				</div>
+			</div>
 
 			<div className="max-w-7xl mx-auto px-4 py-16">
 				<div className="text-start mb-12">

@@ -3,6 +3,7 @@ import sequelize from "../db";
 
 class Reservation extends Model {
 	public id!: number;
+	public suiteId!: number;
 	public nomeCompleto!: string;
 	public email!: string;
 	public telefone!: string;
@@ -17,6 +18,10 @@ Reservation.init(
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
+		},
+		suiteId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
 		},
 		nomeCompleto: {
 			type: DataTypes.STRING,

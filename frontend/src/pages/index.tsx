@@ -3,7 +3,6 @@ import HotelBanner from "@/components/HotelBanner";
 import { Datepicker } from "flowbite-react";
 import CardRooms from "@/components/CardRooms";
 import "../pages/_app";
-import ReservationForm from "@/components/ReservationForm";
 import About from "@/components/About";
 import Comments from "@/components/Comments";
 import Address from "@/components/Address";
@@ -22,7 +21,7 @@ export default function Home() {
 			<CardRooms />
 			<About />
 			<Comments />
-			<ReservationForm />
+
 			<Address />
 			<Footer />
 		</>
