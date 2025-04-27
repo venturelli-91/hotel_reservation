@@ -1,46 +1,53 @@
-const API_URL = "http://localhost:3001/api";
+import { reservationsApi } from "./api";
 
-export interface ReservationForm {
-	nomeCompleto: string;
-	email: string;
-	telefone: string;
-	dataEntrada: string;
-	dataSaida: string;
-	qtdPessoas: number;
+// Interface para os dados da reserva
+interface ReservationData {
+	suiteId: number;
+	checkIn: string;
+	checkOut: string;
+	guests: number;
 }
 
-export const createReservation = async (reservation: ReservationForm) => {
+// Função para obter todas as reservas
+export const getAllReservations = async () => {
 	try {
-		const response = await fetch(`${API_URL}/reservations`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(reservation),
-		});
-
-		if (!response.ok) {
-			throw new Error("Erro ao criar reserva");
-		}
-
-		return await response.json();
+		const data = await reservationsApi.getAll();
+		return data;
 	} catch (error) {
-		console.error("Erro no serviço de reserva:", error);
+		console.error("Erro ao buscar reservas:", error);
 		throw error;
 	}
 };
 
-export const getAllReservations = async () => {
+// Função para obter reservas do usuário atual
+export const getUserReservations = async () => {
 	try {
-		const response = await fetch(`${API_URL}/reservations`);
-
-		if (!response.ok) {
-			throw new Error("Erro ao buscar reservas");
-		}
-
-		return await response.json();
+		const data = await reservationsApi.getUserReservations();
+		return data;
 	} catch (error) {
-		console.error("Erro no serviço de reserva:", error);
+		console.error("Erro ao buscar reservas do usuário:", error);
+		throw error;
+	}
+};
+
+// Função para criar uma nova reserva
+export const createReservation = async (reservationData: ReservationData) => {
+	try {
+		const data = await reservationsApi.create(reservationData);
+		return data;
+	} catch (error) {
+		console.error("Erro ao criar reserva:", error);
+		throw error;
+	}
+};
+
+// Função para cancelar uma reserva
+export const cancelReservation = async (reservationId: number) => {
+	try {
+		const data = await reservationsApi.cancel(reservationId);
+		return data;
+	} catch (error) {
+		console.error("Erro ao cancelar reserva:", error);
 		throw error;
 	}
 };

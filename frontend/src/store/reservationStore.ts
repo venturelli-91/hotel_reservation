@@ -1,5 +1,7 @@
 import { create } from "zustand";
+import { reservationsApi } from "../services/api";
 
+// Types
 export interface SuiteInfo {
 	id: number;
 	isSaved: boolean;
@@ -10,6 +12,15 @@ export interface ReservationData {
 	checkIn: string;
 	checkOut: string;
 	guests: number;
+}
+
+export interface Reservation {
+	id: number;
+	suiteId: number;
+	checkIn: string;
+	checkOut: string;
+	guests: number;
+	status: "confirmada" | "cancelada" | "pendente";
 }
 
 export interface ReservationFormData {
@@ -23,10 +34,16 @@ export interface ReservationFormErrors {
 	dataErro: string;
 }
 
+// Store interface
 interface ReservationStore {
+	// State
 	formData: ReservationFormData;
 	formErrors: ReservationFormErrors;
+	reservations: Reservation[];
+	loading: boolean;
+	error: string | null;
 
+	// Form actions
 	setSuiteInfo: (suiteInfo: SuiteInfo) => void;
 	setField: (
 		field: keyof ReservationFormData,
@@ -37,10 +54,18 @@ interface ReservationStore {
 	setInitialGuests: (guests: number) => void;
 	validarFormulario: () => { valido: boolean; mensagem: string };
 	resetarFormulario: () => void;
+
+	// Data actions
 	formatarDadosParaEnvio: () => ReservationData;
 	salvarReservaEmMemoria: () => void;
+
+	// API actions
+	createReservation: () => Promise<void>;
+	fetchReservations: () => Promise<void>;
+	cancelReservation: (reservationId: number) => Promise<void>;
 }
 
+// Initial values
 const initialFormData: ReservationFormData = {
 	suiteId: null,
 	checkIn: "",
@@ -52,16 +77,19 @@ const initialFormErrors: ReservationFormErrors = {
 	dataErro: "",
 };
 
+// Store implementation
 export const useReservationStore = create<ReservationStore>((set, get) => ({
+	// Initial state
 	formData: initialFormData,
 	formErrors: initialFormErrors,
+	reservations: [],
+	loading: false,
+	error: null,
 
+	// Form actions
 	setSuiteInfo: (suiteInfo) => {
 		set((state) => ({
-			formData: {
-				...state.formData,
-				suiteId: suiteInfo.id,
-			},
+			formData: { ...state.formData, suiteId: suiteInfo.id },
 		}));
 	},
 
@@ -74,13 +102,13 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 
 			const newFormErrors = { ...state.formErrors };
 
+			// Date validation
 			if (field === "checkIn" || field === "checkOut") {
 				const { checkIn, checkOut } = newFormData;
 
 				if (checkIn && checkOut) {
 					const checkInDate = new Date(checkIn);
 					const checkOutDate = new Date(checkOut);
-
 					const minCheckOutDate = new Date(checkInDate);
 					minCheckOutDate.setDate(minCheckOutDate.getDate() + 4);
 
@@ -101,7 +129,7 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 		set((state) => ({
 			formData: {
 				...state.formData,
-				guests: Math.min(state.formData.guests + 1, 3), // Limitando a 3 hóspedes
+				guests: Math.min(state.formData.guests + 1, 3), // Max 3 guests
 			},
 		}));
 	},
@@ -110,17 +138,14 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 		set((state) => ({
 			formData: {
 				...state.formData,
-				guests: Math.max(state.formData.guests - 1, 1), // Mínimo de 1 hóspede
+				guests: Math.max(state.formData.guests - 1, 1), // Min 1 guest
 			},
 		}));
 	},
 
 	setInitialGuests: (guests) => {
 		set((state) => ({
-			formData: {
-				...state.formData,
-				guests,
-			},
+			formData: { ...state.formData, guests },
 		}));
 	},
 
@@ -128,10 +153,7 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 		const { formData, formErrors } = get();
 
 		if (formErrors.dataErro) {
-			return {
-				valido: false,
-				mensagem: formErrors.dataErro,
-			};
+			return { valido: false, mensagem: formErrors.dataErro };
 		}
 
 		if (!formData.checkIn) {
@@ -178,5 +200,64 @@ export const useReservationStore = create<ReservationStore>((set, get) => ({
 			formData: initialFormData,
 			formErrors: initialFormErrors,
 		});
+	},
+
+	// API actions
+	createReservation: async () => {
+		const { formatarDadosParaEnvio, validarFormulario } = get();
+		const { valido, mensagem } = validarFormulario();
+
+		if (!valido) {
+			set({ error: mensagem });
+			return;
+		}
+
+		try {
+			set({ loading: true, error: null });
+			const reservationData = formatarDadosParaEnvio();
+
+			if (!reservationData.suiteId) {
+				set({ loading: false, error: "ID da suíte não selecionado" });
+				return;
+			}
+
+			await reservationsApi.create({
+				suiteId: reservationData.suiteId,
+				checkIn: reservationData.checkIn,
+				checkOut: reservationData.checkOut,
+				guests: reservationData.guests,
+			});
+
+			get().fetchReservations();
+			get().resetarFormulario();
+		} catch {
+			set({ error: "Erro ao criar reserva. Tente novamente." });
+		} finally {
+			set({ loading: false });
+		}
+	},
+
+	fetchReservations: async () => {
+		try {
+			set({ loading: true, error: null });
+			const data = await reservationsApi.getAll();
+			set({ reservations: data });
+		} catch {
+			set({ error: "Erro ao buscar reservas." });
+		} finally {
+			set({ loading: false });
+		}
+	},
+
+	cancelReservation: async (reservationId: number) => {
+		try {
+			set({ loading: true, error: null });
+			await reservationsApi.cancel(reservationId);
+			get().fetchReservations();
+		} catch {
+			set({ error: "Erro ao cancelar reserva." });
+		} finally {
+			set({ loading: false });
+		}
 	},
 }));

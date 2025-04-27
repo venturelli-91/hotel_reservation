@@ -2,10 +2,11 @@ import express, { Request, Response, NextFunction, Router } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import sequelize from "./db";
-import { Suite, Review, SavedSuite } from "./models";
+import { Suite, Review, SavedSuite, Reservation } from "./models";
 
 dotenv.config();
 
+// Tipos para Request com userIp
 declare global {
 	namespace Express {
 		interface Request {
@@ -14,10 +15,12 @@ declare global {
 	}
 }
 
+// Configuração do servidor
 const app = express();
 const router = Router();
 const PORT = process.env.PORT || 3001;
 
+// Middleware
 app.use(
 	cors({
 		origin: "*",
@@ -27,17 +30,17 @@ app.use(
 );
 app.use(express.json());
 
+// Middleware para capturar IP
 const captureIp = (req: Request, res: Response, next: NextFunction) => {
 	req.userIp =
 		(req.headers["x-forwarded-for"] as string) ||
 		req.socket.remoteAddress ||
 		"127.0.0.1";
-
 	next();
 };
-
 app.use(captureIp);
 
+// Rotas de suítes
 // @ts-ignore
 router.get("/suites", async (req: Request, res: Response) => {
 	try {
@@ -54,7 +57,7 @@ router.get("/suites/:type", async (req: Request, res: Response) => {
 	try {
 		const { type } = req.params;
 		const suite = await Suite.findOne({
-			where: { type: type },
+			where: { type },
 			include: [
 				{
 					model: Review,
@@ -70,10 +73,7 @@ router.get("/suites/:type", async (req: Request, res: Response) => {
 		}
 
 		const savedSuite = await SavedSuite.findOne({
-			where: {
-				suiteId: suite.id,
-				userIp: req.userIp,
-			},
+			where: { suiteId: suite.id, userIp: req.userIp },
 		});
 
 		res.status(200).json({
@@ -86,6 +86,7 @@ router.get("/suites/:type", async (req: Request, res: Response) => {
 	}
 });
 
+// Rotas de suítes salvas
 // @ts-ignore
 router.post("/saved-suites", async (req: Request, res: Response) => {
 	try {
@@ -119,12 +120,8 @@ router.post("/saved-suites", async (req: Request, res: Response) => {
 router.get("/saved-suites", async (req: Request, res: Response) => {
 	try {
 		const userIp = req.userIp;
-
 		const savedSuites = await SavedSuite.findAll({
-			where: {
-				userIp,
-				isSaved: true,
-			},
+			where: { userIp, isSaved: true },
 			include: [{ model: Suite }],
 		});
 
@@ -135,14 +132,11 @@ router.get("/saved-suites", async (req: Request, res: Response) => {
 	}
 });
 
+// Rotas de avaliações
 // @ts-ignore
 router.post("/reviews", async (req: Request, res: Response) => {
 	try {
-		const reviewData = {
-			...req.body,
-			userIp: req.userIp,
-		};
-
+		const reviewData = { ...req.body, userIp: req.userIp };
 		const review = await Review.create(reviewData);
 		res.status(201).json(review);
 	} catch (error) {
@@ -155,7 +149,6 @@ router.post("/reviews", async (req: Request, res: Response) => {
 router.get("/reviews", async (req: Request, res: Response) => {
 	try {
 		const { suiteId } = req.query;
-
 		const where = suiteId ? { suiteId } : {};
 
 		const reviews = await Review.findAll({
@@ -171,8 +164,104 @@ router.get("/reviews", async (req: Request, res: Response) => {
 	}
 });
 
+// Rotas de reservas
+// @ts-ignore
+router.post("/reservations", async (req: Request, res: Response) => {
+	try {
+		const { suiteId, checkIn, checkOut, guests } = req.body;
+
+		// Validar parâmetros obrigatórios
+		if (!suiteId || !checkIn || !checkOut || !guests) {
+			return res.status(400).json({
+				message: "Dados incompletos. Todos os campos são obrigatórios.",
+			});
+		}
+
+		// Verificar se a suíte existe
+		const suite = await Suite.findByPk(suiteId);
+		if (!suite) {
+			return res.status(404).json({ message: "Suíte não encontrada" });
+		}
+
+		// Criar a reserva
+		const reservation = await Reservation.create({
+			suiteId,
+			checkIn,
+			checkOut,
+			guests,
+			userIp: req.userIp,
+			status: "pendente",
+		});
+
+		res.status(201).json(reservation);
+	} catch (error) {
+		console.error("Erro ao criar reserva:", error);
+		res.status(500).json({ message: "Erro ao processar a reserva" });
+	}
+});
+
+// @ts-ignore
+router.get("/reservations", async (req: Request, res: Response) => {
+	try {
+		const reservations = await Reservation.findAll({
+			include: [{ model: Suite }],
+			order: [["createdAt", "DESC"]],
+		});
+		res.status(200).json(reservations);
+	} catch (error) {
+		console.error("Erro ao buscar reservas:", error);
+		res.status(500).json({ message: "Erro ao buscar reservas" });
+	}
+});
+
+// @ts-ignore
+router.get("/reservations/user", async (req: Request, res: Response) => {
+	try {
+		const userIp = req.userIp;
+		const reservations = await Reservation.findAll({
+			where: { userIp },
+			include: [{ model: Suite }],
+			order: [["createdAt", "DESC"]],
+		});
+		res.status(200).json(reservations);
+	} catch (error) {
+		console.error("Erro ao buscar reservas do usuário:", error);
+		res.status(500).json({ message: "Erro ao buscar suas reservas" });
+	}
+});
+
+// @ts-ignore
+router.delete("/reservations/:id", async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+		const userIp = req.userIp;
+
+		const reservation = await Reservation.findByPk(id);
+
+		if (!reservation) {
+			return res.status(404).json({ message: "Reserva não encontrada" });
+		}
+
+		// Verificar se a reserva pertence ao usuário atual
+		if (reservation.userIp !== userIp) {
+			return res.status(403).json({ message: "Acesso não autorizado" });
+		}
+
+		// Atualizar o status em vez de excluir
+		reservation.status = "cancelada";
+		await reservation.save();
+
+		res.status(200).json({ message: "Reserva cancelada com sucesso" });
+	} catch (error) {
+		console.error("Erro ao cancelar reserva:", error);
+		res.status(500).json({ message: "Erro ao processar a solicitação" });
+	}
+});
+
+// Registrar as rotas e iniciar servidor
 app.use("/api", router);
 
+// Iniciar servidor
 const startServer = async () => {
 	try {
 		await sequelize.sync();
